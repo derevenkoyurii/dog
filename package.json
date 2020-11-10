@@ -8,6 +8,7 @@
     "build:prod": "ng build --prod",
     "lint": "ng lint",
     "test": "ng lint && ng test --configuration=test",
+    "watch": "ng test --configuration=test --browsers ChromeHeadless --watch --reporters dots",
     "e2e": "ng e2e",
     "ci": "npm run format:test && ng lint && ng test --configuration=test --browsers ChromeTravisCi --code-coverage && npm run build:prod -- --deploy-url /client/ --base-href /client",
     "format:write": "prettier src/**/*.{ts,json,md,scss} --write",
