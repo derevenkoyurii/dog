@@ -1,8 +1,34 @@
+// Some panel-settings automatically inherited from .editorconfig
+
 module.exports = {
-  trailingComma: 'all',
-  tabWidth: 2,
+  arrowParens: 'always',
+
+  endOfLine: 'lf',
+  printWidth: 110,
+  useTabs: false,
+  proseWrap: 'never',
+  quoteProps: 'consistent',
   semi: true,
   singleQuote: true,
-  bracketSpacing: true,
-  printWidth: 100,
+  trailingComma: 'none',
+
+  overrides: [
+    {
+      files: ['*.json', '*.md', '*.yml'],
+      useTabs: true
+    },
+    {
+      files: '.editorconfig',
+      options: {
+        parser: 'yaml'
+      }
+    },
+    {
+      files: '*.html',
+      options: {
+        parser: 'angular',
+        printWidth: 120
+      }
+    }
+  ]
 };

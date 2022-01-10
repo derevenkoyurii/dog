@@ -11,6 +11,6 @@ export const environment = {
     angular: packageJson.dependencies['@angular/core'],
     rxjs: packageJson.dependencies.rxjs,
     angularCli: packageJson.devDependencies['@angular/cli'],
-    typescript: packageJson.devDependencies.typescript,
-  },
+    typescript: packageJson.devDependencies.typescript
+  }
 };

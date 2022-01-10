@@ -11,54 +11,15 @@ module.exports = {
     }
   },
   //
-  ignorePatterns: ['src/environments', 'node_modules/*', '.*js'],
+  ignorePatterns: ['src/environments', 'src/test.ts', 'node_modules/*', '.*ts', '.*js'],
   //
   plugins: [
-    'import', // https://github.com/benmosher/eslint-plugin-import#eslint-plugin-import
-    'simple-import-sort', // https://github.com/lydell/eslint-plugin-simple-import-sort#eslint-plugin-simple-import-sort
-    'sort-keys-fix', // https://github.com/leo-buneev/eslint-plugin-sort-keys-fix#usage
     'unicorn', // https://github.com/sindresorhus/eslint-plugin-unicorn#usage
-    'jsdoc', // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc
-    'lodash', // https://github.com/wix/eslint-plugin-lodash#configuration
-    'you-dont-need-momentjs', // Moment is deprecated, https://github.com/you-dont-need/You-Dont-Need-Momentjs#you-dont-may-not-need-momentjs
     'prettier' // https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
   ],
   //
-  extends: [
-    'eslint:recommended',
-
-    'plugin:you-dont-need-momentjs/recommended',
-    'plugin:lodash/recommended',
-
-    'plugin:prettier/recommended'
-  ],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   rules: {
-    /**
-     * JSDoc rules.
-     * @see https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc
-     */
-    'jsdoc/check-alignment': 'warn',
-    'jsdoc/check-line-alignment': ['warn', 'always'],
-    'jsdoc/check-property-names': ['warn', { enableFixer: true }],
-    'jsdoc/no-bad-blocks': 'warn',
-    'jsdoc/require-returns-type': 'warn',
-    'jsdoc/valid-types': 'warn',
-
-    /**
-     * Lodash
-     * @see https://github.com/wix/eslint-plugin-lodash#list-of-provided-rules
-     */
-    'lodash/import-scope': 'off',
-    'lodash/prefer-noop': 'off',
-    'lodash/prefer-lodash-method': 'off',
-    'lodash/prefer-constant': 'off',
-
-    /**
-     * Sort keys in obj
-     * @see https://github.com/leo-buneev/eslint-plugin-sort-keys-fix#usage
-     */
-    'sort-keys-fix/sort-keys-fix': 'off',
-
     /**
      * Unicorn
      * @see https://github.com/sindresorhus/eslint-plugin-unicorn#rules
@@ -84,10 +45,15 @@ module.exports = {
       parserOptions: {
         sourceType: 'module',
         createDefaultProgram: true,
-        project: './tsconfig.*.json',
+        project: ['./tsconfig.*.json', 'tsconfig.spec.json', 'e2e/tsconfig.json'],
         tsconfigRootDir: './'
       },
       plugins: [
+        'import', // https://github.com/benmosher/eslint-plugin-import#eslint-plugin-import
+        'simple-import-sort', // https://github.com/lydell/eslint-plugin-simple-import-sort#eslint-plugin-simple-import-sort
+        'sort-keys-fix', // https://github.com/leo-buneev/eslint-plugin-sort-keys-fix#usage
+        'jsdoc', // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc
+
         '@typescript-eslint', // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md#getting-started---linting-your-typescript-codebase
         'rxjs', // https://www.npmjs.com/package/eslint-plugin-rxjs#install
         '@angular-eslint' // https://github.com/angular-eslint/angular-eslint#migrating-from-codelyzer-and-tslint
@@ -98,13 +64,63 @@ module.exports = {
         'plugin:@typescript-eslint/recommended', // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
         'plugin:@typescript-eslint/recommended-requiring-type-checking', // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#recommended-configs
 
-        'plugin:@angular-eslint//recommended', // https://github.com/angular-eslint/angular-eslint#rules-list
+        'plugin:@angular-eslint/recommended', // https://github.com/angular-eslint/angular-eslint#rules-list
         'plugin:rxjs/recommended', // https://www.npmjs.com/package/eslint-plugin-rxjs#rules
 
-        'prettier/@typescript-eslint',
+        'prettier',
         'plugin:prettier/recommended'
       ],
       rules: {
+        /**
+         * Sort keys in obj
+         * @see https://github.com/leo-buneev/eslint-plugin-sort-keys-fix#usage
+         */
+        'sort-keys-fix/sort-keys-fix': 'off',
+
+        /**
+         * Import rules
+         * @see https://github.com/benmosher/eslint-plugin-import#rules
+         */
+        'import/prefer-default-export': 'off',
+
+        /**
+         * Simple import sorts
+         * @see https://github.com/lydell/eslint-plugin-simple-import-sort#example-configuration
+         */
+        // eslint rule
+        'sort-imports': 'off',
+        'simple-import-sort/imports': [
+          'error',
+          {
+            groups: [
+              ['^@angular?\\w'],
+              ['^@?\\w'],
+              ['^\\u0000\\w'],
+
+              ['^rxjs?\\w'],
+              ['^ng*?\\w'],
+
+              ['^@env?\\w'],
+
+              ['^@app?\\w'],
+              ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+              ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$']
+            ]
+          }
+        ],
+        'simple-import-sort/exports': 'error',
+
+        /**
+         * JSDoc rules.
+         * @see https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc
+         */
+        'jsdoc/check-alignment': 'warn',
+        'jsdoc/check-line-alignment': ['warn', 'always'],
+        'jsdoc/check-property-names': ['warn', { enableFixer: true }],
+        'jsdoc/no-bad-blocks': 'warn',
+        'jsdoc/require-returns-type': 'warn',
+        'jsdoc/valid-types': 'warn',
+
         /**
          * ESLint rules.
          * @see https://eslint.org/docs/2.0.0/rules/
@@ -620,46 +636,12 @@ module.exports = {
         'no-console': 'off',
 
         /**
-         * Import rules
-         * @see https://github.com/benmosher/eslint-plugin-import#rules
-         */
-        'import/prefer-default-export': 'off',
-
-        /**
-         * Simple import sorts
-         * @see https://github.com/lydell/eslint-plugin-simple-import-sort#example-configuration
-         */
-        // eslint rule
-        'sort-imports': 'off',
-        'simple-import-sort/imports': [
-          'error',
-          {
-            groups: [
-              ['^@angular?\\w'],
-              ['^@?\\w'],
-              ['^\\u0000\\w'],
-              ['^lodash?\\w'],
-              ['^rxjs?\\w'],
-              ['^ng*?\\w'],
-
-              ['^@env?\\w'],
-
-              ['^@app?\\w'],
-              ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-              ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$']
-            ]
-          }
-        ],
-        'simple-import-sort/exports': 'error',
-
-        /**
          * Rxjs
          */
         'rxjs/no-subject-value': 'warn',
         'rxjs/no-implicit-any-catch': 'off',
         'rxjs/no-sharereplay': 'warn',
         'rxjs/no-unbound-methods': 'off',
-
 
         /**
          * Angular
@@ -686,18 +668,20 @@ module.exports = {
         '@typescript-eslint/unbound-method': 'off'
       }
     },
+
     /**
      * [*.component.ts] Angular Components Typescript
      */
     {
       files: ['*.component.ts'],
       parserOptions: {
-        project: './tsconfig.app.json'
+        project: ['./tsconfig.app.json']
       },
       plugins: ['@angular-eslint/template'],
       processor: '@angular-eslint/template/extract-inline-html',
       extends: ['plugin:@angular-eslint/template/process-inline-templates']
     },
+
     /**
      * [*.component.html] Angular Components Templates
      */
@@ -717,11 +701,7 @@ module.exports = {
         'plugin:@angular-eslint/template/recommended',
         'plugin:@angular-eslint/template/process-inline-templates'
       ],
-      rules: {
-        '@angular-eslint/template-no-negated-async': 'warn',
-        '@angular-eslint/template-no-call-expression': 'warn',
-        '@angular-eslint/template-banana-in-box': 'error'
-      }
+      rules: {}
     },
     /**
      * [*.spec.ts] Unit tests
